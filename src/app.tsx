@@ -19,10 +19,22 @@ const App: React.FC<{}> = () => {
     alignItems: "center",
   }}>
     <img className="icon" src={craftXIconSrc} alt="CraftX logo" />
-    <button className={`btn ${isDarkMode ? "dark" : ""}`} onClick={insertHelloWorld}>
+    <button className={`btn ${isDarkMode ? "dark" : ""}`} onClick={getSelectedText}>
       Hello world!
     </button>
   </div>;
+}
+
+async function getSelectedText() {
+  const result = await craft.editorApi.getTextSelection()
+
+  if (result.status !== "success") {
+      throw new Error(result.message)
+  }
+
+  const selectedText = result.data;
+
+  console.log(`Selected text range: ${selectedText}`);
 }
 
 function useCraftDarkMode() {
